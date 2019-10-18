@@ -18,7 +18,7 @@ func TestWorkerpool(t *testing.T) {
 		return nil
 	}
 
-	pool := NewPool(workerFn, nil)
+	pool := NewPool(workerFn, nil, 10, 50)
 	pool.Start(runtime.NumCPU())
 
 	for i := 0; i < length; i++ {
@@ -45,7 +45,7 @@ func TestWorkerpoolError(t *testing.T) {
 		expectedErr = err
 	}
 
-	pool := NewPool(workerFn, errorFn)
+	pool := NewPool(workerFn, errorFn, 10, 50)
 	pool.Start(runtime.NumCPU())
 	pool.Enqueue(10)
 
@@ -64,7 +64,7 @@ func BenchmarkWorker(b *testing.B) {
 		return nil
 	}
 
-	pool := NewPool(workerFn, nil)
+	pool := NewPool(workerFn, nil, 10, 50)
 	pool.Start(runtime.NumCPU())
 
 	for n := 0; n < b.N; n++ {
